@@ -13,7 +13,6 @@ def get_total_amount():
 
 
 def process_order(milk, water, coffee, price):
-
     resources["milk"] -= milk
     resources["water"] -= water
     resources["coffee"] -= coffee
