@@ -1,16 +1,25 @@
-# This is a sample Python script.
+from menu import Menu, MenuItem
+from coffee_maker import CoffeeMaker
+from money_machine import MoneyMachine
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+menu = Menu()
+coffee_maker = CoffeeMaker()
+money_machine = MoneyMachine()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+is_on = True
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while is_on:
+    menu_items = menu.get_items()
+    user_input = input(f"What would you like? {menu_items}: ")
+    if user_input == "off":
+        is_on = False
+    elif user_input == "report":
+        coffee_maker.report()
+        money_machine.report()
+    else:
+        order = menu.find_drink(user_input)
+        if order is not None:
+            if coffee_maker.is_resource_sufficient(order):
+                if money_machine.make_payment(order.cost):
+                    coffee_maker.make_coffee(order)
