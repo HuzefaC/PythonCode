@@ -1,18 +1,24 @@
 from turtle import Screen
-import turtle as t
 import time
 from snake import Snake
 
+# Setup the screen
 screen = Screen()
 screen.bgcolor("black")
 screen.setup(height=600, width=600)
+
+# Removes tracing
 screen.tracer(0)
+
 screen.title("Snake")
 
 
 def play():
+    """This function starts the game"""
     game_on = True
     snake = Snake()
+
+    # Listening to key events
     screen.listen()
     screen.onkeypress(key="Up", fun=snake.up)
     screen.onkeypress(key="Down", fun=snake.down)
@@ -28,5 +34,3 @@ def play():
 
 play()
 screen.exitonclick()
-
-
