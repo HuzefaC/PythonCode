@@ -1,6 +1,7 @@
 from turtle import Screen
 import time
 from snake import Snake
+from food import Food
 
 # Setup the screen
 screen = Screen()
@@ -17,6 +18,7 @@ def play():
     """This function starts the game"""
     game_on = True
     snake = Snake()
+    food = Food()
 
     # Listening to key events
     screen.listen()
@@ -30,6 +32,9 @@ def play():
         time.sleep(0.1)
         counter += 1
         snake.move()
+
+        if snake.head.distance(food) < 10:
+            food.refresh()
 
 
 play()
