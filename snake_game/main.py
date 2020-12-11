@@ -9,9 +9,9 @@ BOTTOM_END = -280
 LEFT_END = -280
 RIGHT_END = 280
 FOOD_DISTANCE = 15
+COLLISION_DISTANCE = 10
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 600
-
 
 # Setup the screen
 screen = Screen()
@@ -45,14 +45,21 @@ def play():
 
         # Increment the score
         if snake.head.distance(food) < FOOD_DISTANCE:
+            snake.extend()
             scoreboard.increase_score()
             food.refresh()
 
-        # Detect wall collision
+        # Detect collision with wall
         if snake.head.xcor() > RIGHT_END or snake.head.xcor() < LEFT_END \
                 or snake.head.ycor() > TOP_END or snake.head.ycor() < BOTTOM_END:
             scoreboard.game_over()
             game_on = False
+
+        # Detect collision with tail
+        for segment in snake.snake[1:]:
+            if segment.distance(snake.head) < COLLISION_DISTANCE:
+                scoreboard.game_over()
+                game_on = False
 
 
 play()
