@@ -1,6 +1,11 @@
 from turtle import Turtle
 import random
 
+TOP = 280
+BOTTOM = -280
+LEFT = -280
+RIGHT = 250
+
 
 class Food(Turtle):
 
@@ -14,6 +19,6 @@ class Food(Turtle):
         self.refresh()
 
     def refresh(self):
-        random_x = random.randint(-280, 280)
-        random_y = random.randint(-280, 280)
+        random_x = random.randint(LEFT, RIGHT)
+        random_y = random.randint(BOTTOM, RIGHT)
         self.goto(random_x, random_y)
