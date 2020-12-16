@@ -10,12 +10,10 @@ SCREEN_WIDTH = 600
 OBSTACLE_GAP = 8
 SLEEP_TIME = 0.1
 
-# TODO Setup the screen
 screen = Screen()
 screen.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 screen.tracer(0)
 
-# TODO Create a turtle that can move only up
 player = Player()
 obstacle = Obstacle()
 scoreboard = Scoreboard()

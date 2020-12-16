@@ -28,4 +28,3 @@ class Scoreboard(Turtle):
     def increase_score(self):
         self.level += 1
         self.update_scoreboard()
-
