@@ -14,15 +14,24 @@ class Snake:
         self.snake = []
         self.create_snake()
         self.head = self.snake[0]
+        self.tail = self.snake[-1]
 
     def create_snake(self):
         """Creates a snake"""
         for position in STARTING_POSITIONS:
-            segment = t.Turtle("square")
-            segment.penup()
-            segment.color("white")
-            segment.goto(position)
-            self.snake.append(segment)
+            self.add_segment(position)
+
+    def add_segment(self, position):
+        segment = t.Turtle("square")
+        segment.speed("fastest")
+        segment.penup()
+        segment.goto(position)
+        segment.color("white")
+        self.snake.append(segment)
+
+    def extend(self):
+        position = (self.tail.position())
+        self.add_segment(position)
 
     def move(self):
         """Moves the snake"""
@@ -51,3 +60,13 @@ class Snake:
         """Changes snakes direction to right"""
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+
+    def snake_reset(self):
+        for seg in self.snake:
+            seg.goto(1000, 1000)
+        self.snake.clear()
+        self.create_snake()
+        self.head = self.snake[0]
+        self.tail = self.snake[-1]
+
+
