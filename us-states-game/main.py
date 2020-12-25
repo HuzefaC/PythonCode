@@ -10,7 +10,6 @@ turtle = Turtle(image)
 data = pandas.read_csv("50_states.csv")
 state_list = data.state.to_list()
 correct_guess_list = []
-learn_list = []
 is_game_on = True
 
 while is_game_on:
@@ -30,9 +29,7 @@ while is_game_on:
     if len(correct_guess_list) == 50:
         is_game_on = False
 
-for state in state_list:
-    if state not in correct_guess_list:
-        learn_list.append(state)
+learn_list = [item for item in state_list if item not in correct_guess_list]
 
 learn_dict = {
     "States": learn_list
