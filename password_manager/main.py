@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+
 # ---------------------------- CONSTANTS AND GLOBAL VARIABLES ------------------------------- #
 CANVAS_WIDTH = 200
 CANVAS_HEIGHT = 200
@@ -13,6 +14,7 @@ YELLOW = "#ffd369"
 FONT_NAME = "Courier"
 
 password = []
+
 
 def validate():
     website = website_entry.get()
