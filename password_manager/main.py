@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 # ---------------------------- CONSTANTS AND GLOBAL VARIABLES ------------------------------- #
 CANVAS_WIDTH = 200
@@ -12,8 +13,6 @@ GREEN = "#9bdeac"
 DARK = "#222831"
 YELLOW = "#ffd369"
 FONT_NAME = "Courier"
-
-password = []
 
 
 def validate():
@@ -32,8 +31,7 @@ def validate():
 
 def generate_password():
     # Password Generator Project
-    global password
-    password.clear()
+    password = []
     if validate():
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                    'u',
@@ -49,18 +47,19 @@ def generate_password():
 
         for num in range(nr_letters):
             random_char = random.choice(letters)
-            password += random_char
+            password.append(random_char)
 
         for num in range(nr_numbers):
             random_number = random.choice(numbers)
-            password += random_number
+            password.append(random_number)
 
         for num in range(nr_symbols):
             random_symbol = random.choice(symbols)
-            password += random_symbol
+            password.append(random_symbol)
 
         random.shuffle(password)
         password_str = "".join(password)
+        password_entry.delete(0, END)
         password_entry.insert(0, password_str)
         pyperclip.copy(password_str)
 
@@ -71,6 +70,11 @@ def add_password():
     email = email_entry.get()
     password = password_entry.get()
 
+    json_data = {website: {
+        "email": email,
+        "password": password
+    }}
+
     if validate() or len(password) == 0:
         messagebox.showerror(title="Enter details!!", message="Please fill the details.")
 
@@ -79,9 +83,10 @@ def add_password():
                                           message=f"These are the details entered\nEmail: {email}\nPassword: {password}"
                                                   f"\nIs it ok to save?")
         if response:
-            with open("password_data.txt", mode="a") as file:
-                newline = f"{website} | {email} | {password}\n"
-                file.write(newline)
+            with open("password_data.json", mode="w") as file:
+                # newline = f"{website} | {email} | {password}\n"
+                # file.write(newline)
+                json.dump(json_data, file, indent=4)
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
 
