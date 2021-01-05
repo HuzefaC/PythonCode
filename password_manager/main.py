@@ -31,7 +31,7 @@ def search_password():
         except FileNotFoundError or JSONDecodeError:
             messagebox.showerror(title="No passwords!!", message="No passwords stored. Please save passwords.")
         else:
-            try:
+            try:    
                 password = data[f"{email}"][f"{website}"]
             except KeyError:
                 messagebox.showerror(title="Does not exits!", message=f"No password for {website.title()} "
