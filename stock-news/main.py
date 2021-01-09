@@ -88,7 +88,6 @@ if abs(change_percentage) > 5:
 else:
     print("No news")
 
-
 # Optional: Format the SMS message like this:
 """
 TSLA: 🔺2%
