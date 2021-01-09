@@ -57,9 +57,13 @@ def send_message(msg):
 
 
 def create_message(news, chng):
+    if chng > 0:
+        symbol = "🔺"
+    else:
+        symbol = "🔻"
     message = ""
     for n in news:
-        message += f"{STOCK}: 🔺{round(chng)}%\n"
+        message += f"{STOCK}: {symbol}{chng}%\n"
         message += f"Headline: {n['title']}\nBrief: {n['description']}\n\n"
     return message
 
@@ -81,7 +85,7 @@ stock_data = stock_api_response.json()["Global Quote"]
 
 change_percentage = float(stock_data["10. change percent"][:-1])
 
-if abs(change_percentage) > 5:
+if change_percentage > 5 or change_percentage < -5:
     news_articles = get_news()
     res = send_message(create_message(news_articles, change_percentage))
     print(res)
