@@ -38,8 +38,8 @@ if carry_umbrella:
 
     message = client.messages.create(
         body="Carry an umbrella, It might rain today!!",
-        from_='+12055258874',
-        to='+918411037244'
+        from_=os.getenv("TWILIO_NUMBER"),
+        to=os.getenv("MY_NUMBER"),
     )
 else:
     print("No umbrella needed")
