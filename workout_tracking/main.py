@@ -19,6 +19,11 @@ headers = {
     "Content-Type": "application/json",
 }
 
+# header for sheety
+sheety_header = {
+    "Authorization": os.getenv("SHEETY_AUTH")
+}
+
 # User input
 query = input("Enter query: ")
 
@@ -49,4 +54,4 @@ sheety_body = {
         'calories': calories,
     }
 }
-sheety_response = requests.post(sheety_endpoint, json=sheety_body)
+sheety_response = requests.post(sheety_endpoint, json=sheety_body, headers=sheety_header)
