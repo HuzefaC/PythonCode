@@ -11,8 +11,6 @@ def bye():
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
-def make_bold(function):
-    pass
 
 
 @app.route('/<name>/<int:num>')
