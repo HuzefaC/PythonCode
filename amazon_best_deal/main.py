@@ -32,10 +32,8 @@ while continue_loop:
     soup = BeautifulSoup(amazon_website, "html.parser")
 
     span_tag = soup.find(name="span", id="priceblock_ourprice")
-
     if span_tag is not None:
         continue_loop = False
-        price = span_tag.getText()
         price = float(span_tag.text.split()[1].replace(",", ""))
         if price < BUDGET:
             print(f"Go buy now the price is {price}")
