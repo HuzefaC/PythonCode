@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request
 import requests
+import smtplib
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 response = requests.get("https://api.npoint.io/43644ec4f0013682fc0d")
@@ -42,9 +47,20 @@ def receive_data():
         email = request.form["email"]
         phone = request.form["phone"]
         message = request.form["message"]
-        print(name, email, phone, message)
+        send_mail(name, email, phone, message)
         return render_template("contact.html", msg_sent=True)
     return render_template("contact.html", msg_sent=False)
+
+
+def send_mail(name, email, phone, message):
+    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\n" \
+                              f"Phone: {phone}\nMessage:{message}"
+
+    my_email = os.getenv("email")
+    my_password = os.getenv("password")
+    with smtplib.SMTP_SSL("smtp.gmail.com") as connection:
+        connection.login(my_email, my_password)
+        connection.sendmail(my_email, my_email, email_message)
 
 
 if __name__ == "__main__":
