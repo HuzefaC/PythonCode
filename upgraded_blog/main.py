@@ -1,10 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
 response = requests.get("https://api.npoint.io/43644ec4f0013682fc0d")
 posts = response.json()
-print(posts)
 
 
 @app.route('/')
@@ -34,6 +33,18 @@ def show_post(index):
         if blog_post["id"] == index:
             requested_post = blog_post
     return render_template("post.html", post=requested_post)
+
+
+@app.route("/contact", methods=["POST", "GET"])
+def receive_data():
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        message = request.form["message"]
+        print(name, email, phone, message)
+        return render_template("contact.html", msg_sent=True)
+    return render_template("contact.html", msg_sent=False)
 
 
 if __name__ == "__main__":
