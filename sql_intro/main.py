@@ -47,7 +47,7 @@ db.create_all()
 # db.session.commit()
 
 # Delete Record
-book_id = 1
-book_to_delete = Book.query.get(book_id)
-db.session.delete(book_to_delete)
-db.session.commit()
+# book_id = 1
+# book_to_delete = Book.query.get(book_id)
+# db.session.delete(book_to_delete)
+# db.session.commit()
