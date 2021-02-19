@@ -70,7 +70,12 @@ class AddMovieForm(FlaskForm):
 
 @app.route("/")
 def home():
-    movies = db.session.query(Movie).all()
+    movies = db.session.query(Movie).order_by(Movie.rating.desc())
+    i = 1
+    for movie in movies:
+        movie.ranking = i
+        i += 1
+    db.session.commit()
     return render_template("index.html", movies=movies)
 
 
@@ -124,7 +129,6 @@ def select():
     movie_id = request.args.get('id')
     response = requests.get(url=detail_endpoint+movie_id, params=params)
     movie_details = response.json()
-    print(movie_details)
     year = movie_details['release_date'].split('-')[0]
     new_movie = Movie(
         title=movie_details['title'],
@@ -137,7 +141,7 @@ def select():
     )
     db.session.add(new_movie)
     db.session.commit()
-    return redirect(location=url_for("edit"), movie=selected_movie)
+    return redirect(location=url_for("edit", id=new_movie.id))
 
 
 if __name__ == '__main__':
