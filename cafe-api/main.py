@@ -39,6 +39,7 @@ class Cafe(db.Model):
         # return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
+# HTTP GET - Read Record
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -108,13 +109,59 @@ def search():
         return jsonify(errors[0])
 
 
-# HTTP GET - Read Record
-
 # HTTP POST - Create Record
+@app.route("/add", methods=['POST'])
+def add():
+    new_cafe = Cafe(
+        name=request.args.get('name'),
+        map_url=request.args.get('map_url'),
+        img_url=request.args.get('img_url'),
+        location=request.args.get('location'),
+        seats=request.args.get('seats'),
+        has_toilet=bool(request.args.get('has_toilet')),
+        has_wifi=bool(request.args.get('has_wifi')),
+        has_sockets=bool(request.args.get('has_sockets')),
+        can_take_calls=bool(request.args.get('can_take_calls')),
+        coffee_price=request.args.get('coffee_price'))
+
+    db.session.add(new_cafe)
+    db.session.commit()
+    return jsonify(response={"success": "Successfully added the new cafe."})
+
 
 # HTTP PUT/PATCH - Update Record
+@app.route("/update-price/<cafe_id>", methods=['PATCH'])
+def update_price(cafe_id):
+    selected_cafe = Cafe.query.get(cafe_id)
+    if selected_cafe:
+        new_price = request.args.get('new_price')
+        selected_cafe.coffee_price = new_price
+        db.session.commit()
+        return jsonify(response={"success": f"Successfully updated the cafe {selected_cafe}."})
+    else:
+        return jsonify(response={"error": {"Not Found": "Sorry a cafe with that "
+                                                        "id was not found in our database."}
+                                 })
+
 
 # HTTP DELETE - Delete Record
+@app.route("/report-closed/<cafe_id>", methods=['DELETE'])
+def delete(cafe_id):
+    selected_cafe = Cafe.query.get(cafe_id)
+    if selected_cafe:
+        api_key = str(request.args.get('api-key'))
+        if api_key == "123456789":
+            db.session.delete(selected_cafe)
+            db.session.commit()
+            return jsonify(response={"success": f"Successfully updated the cafe {selected_cafe}."})
+        else:
+            return jsonify(response={"error": {"Access Denied": "Sorry you are not authorized "
+                                                                "to delete a cafe from our database."}
+                                     })
+    else:
+        return jsonify(response={"error": {"Not Found": "Sorry a cafe with that "
+                                                        "id was not found in our database."}
+                                 })
 
 
 if __name__ == '__main__':
